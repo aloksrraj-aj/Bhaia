@@ -1,6 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.database.connection import engine
+from app.database.base import Base
+
+from app.models.user import User
+from app.models.store import Store
+from app.models.category import Category
+from app.models.product import Product
+from app.models.product_price import ProductPrice
+
 from app.api.user import router as user_router
 from app.api.store import router as store_router
 from app.api.category import router as category_router
@@ -9,6 +18,9 @@ from app.api.product_price import router as product_price_router
 from app.api.compare import router as compare_router
 from app.api.cart import router as cart_router
 from app.api.search import router as search_router
+
+# Create all database tables automatically
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Bhaia API",
@@ -34,6 +46,7 @@ app.include_router(product_price_router)
 app.include_router(compare_router)
 app.include_router(cart_router)
 app.include_router(search_router)
+
 
 @app.get("/")
 def home():
