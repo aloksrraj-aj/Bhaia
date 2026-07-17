@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
+
+import api from "../services/api";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -27,9 +28,9 @@ function Signup() {
 
         try {
 
-            const response = await axios.post(
+            const response = await api.post(
 
-                "http://127.0.0.1:8000/signup",
+                "/signup",
 
                 user
 

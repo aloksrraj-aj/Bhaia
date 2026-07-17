@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
 
 function ChangePassword() {
@@ -11,18 +11,11 @@ function ChangePassword() {
 
         try {
 
-            const token = localStorage.getItem("token");
-
-            await axios.put(
-                "http://127.0.0.1:8000/change-password",
+            await api.put(
+                "/change-password",
                 {
                     old_password: oldPassword,
                     new_password: newPassword
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
                 }
             );
 
@@ -67,11 +60,11 @@ function ChangePassword() {
                     type="password"
                     placeholder="Old Password"
                     value={oldPassword}
-                    onChange={(e)=>setOldPassword(e.target.value)}
+                    onChange={(e) => setOldPassword(e.target.value)}
                     style={{
-                        width:"100%",
-                        padding:"12px",
-                        marginBottom:"15px"
+                        width: "100%",
+                        padding: "12px",
+                        marginBottom: "15px"
                     }}
                 />
 
@@ -79,23 +72,23 @@ function ChangePassword() {
                     type="password"
                     placeholder="New Password"
                     value={newPassword}
-                    onChange={(e)=>setNewPassword(e.target.value)}
+                    onChange={(e) => setNewPassword(e.target.value)}
                     style={{
-                        width:"100%",
-                        padding:"12px",
-                        marginBottom:"20px"
+                        width: "100%",
+                        padding: "12px",
+                        marginBottom: "20px"
                     }}
                 />
 
                 <button
                     onClick={changePassword}
                     style={{
-                        padding:"12px 25px",
-                        background:"#5F8D7A",
-                        color:"white",
-                        border:"none",
-                        borderRadius:"10px",
-                        cursor:"pointer"
+                        padding: "12px 25px",
+                        background: "#5F8D7A",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "10px",
+                        cursor: "pointer"
                     }}
                 >
                     Change Password

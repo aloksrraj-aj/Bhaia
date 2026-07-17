@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
+
+import api from "../services/api";
 
 import "../styles/login.css";
 import Button from "../components/Button";
@@ -18,8 +19,8 @@ function Login() {
 
         try {
 
-            const response = await axios.post(
-                "http://127.0.0.1:8000/login",
+            const response = await api.post(
+                "/login",
                 {
                     email,
                     password
@@ -43,17 +44,13 @@ function Login() {
 
             if (error.response) {
 
-                toast.error(
-                    error.response.data.detail
-                );
+                toast.error(error.response.data.detail);
 
             }
 
             else {
 
-                toast.error(
-                    "Unable to connect to server"
-                );
+                toast.error("Unable to connect to server");
 
             }
 
@@ -74,10 +71,8 @@ function Login() {
                 <h1>Bhaia</h1>
 
                 <p>
-
                     Compare Grocery Prices
                     Across Every Store
-
                 </p>
 
                 <Input
@@ -104,36 +99,20 @@ function Login() {
                 <br />
                 <br />
 
-                <p>
-
-                    New here?
-
-                </p>
+                <p>New here?</p>
 
                 <button
-
                     onClick={() => navigate("/signup")}
-
                     style={{
-
                         background: "transparent",
-
                         border: "none",
-
                         color: "#5F8D7A",
-
                         cursor: "pointer",
-
                         fontWeight: "600",
-
                         fontSize: "15px"
-
                     }}
-
                 >
-
                     Create Account
-
                 </button>
 
             </div>
