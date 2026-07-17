@@ -16,7 +16,6 @@ def create_product(
     product: ProductCreate,
     db: Session = Depends(get_db)
 ):
-
     new_product = Product(
         name=product.name,
         brand=product.brand,
@@ -33,3 +32,31 @@ def create_product(
         "message": "Product created successfully",
         "product": new_product
     }
+
+
+@router.get("/")
+def get_products(
+    db: Session = Depends(get_db)
+):
+    products = db.query(Product).all()
+
+    return products
+
+
+@router.get("/{product_id}")
+def get_product(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+    product = (
+        db.query(Product)
+        .filter(Product.id == product_id)
+        .first()
+    )
+
+    if not product:
+        return {
+            "message": "Product not found"
+        }
+
+    return product
