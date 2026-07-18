@@ -48,9 +48,10 @@ def compare_cart(
         if available:
 
             result.append({
-                "store": store.name,
-                "total": total
-            })
+    "store_id": store.id,
+    "store": store.name,
+    "total": total
+})
 
     result.sort(key=lambda x: x["total"])
 

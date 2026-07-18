@@ -65,22 +65,30 @@ function ProductCard({
             <div>
 
                 <div
-
-                    style={{
-
-                        fontSize: "48px",
-
-                        textAlign: "center",
-
-                        marginBottom: "18px"
-
-                    }}
-
-                >
-
-                    🛒
-
-                </div>
+    style={{
+        height: "170px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: "18px",
+        overflow: "hidden",
+        borderRadius: "12px",
+        background: "#F8F8F8"
+    }}
+>
+    <img
+        src={
+            product.image ||
+            "https://via.placeholder.com/180x180?text=No+Image"
+        }
+        alt={product.name}
+        style={{
+            width: "150px",
+            height: "150px",
+            objectFit: "contain"
+        }}
+    />
+</div>
 
                 <h2
 
@@ -100,17 +108,22 @@ function ProductCard({
 
                 </h2>
 
-                <p>
+                <p
+    style={{
+        color: "#666",
+        marginBottom: "8px"
+    }}
+>
+    {product.brand}
+</p>
 
-                    <strong>Brand:</strong> {product.brand}
-
-                </p>
-
-                <p>
-
-                    <strong>Quantity:</strong> {product.unit}
-
-                </p>
+<p
+    style={{
+        color: "#888"
+    }}
+>
+    {product.unit}
+</p>
 
             </div>
 
@@ -129,7 +142,16 @@ function ProductCard({
                 }}
 
             >
-
+<p
+    style={{
+        color: "#27AE60",
+        fontWeight: "600",
+        textAlign: "center",
+        marginBottom: "10px"
+    }}
+>
+    Compare prices across stores
+</p>
                 <Button
 
                     fullWidth

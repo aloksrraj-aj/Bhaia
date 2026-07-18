@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -14,11 +14,33 @@ function Home() {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        loadProducts();
+    }, []);
+
+    const loadProducts = async () => {
+
+        try {
+
+            const response = await api.get("/products");
+
+            setProducts(response.data);
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+
+            toast.error("Unable to load products");
+
+        }
+
+    };
+
     const addToCart = (product) => {
 
-        let cart = JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         const alreadyExists = cart.find(
             item => item.id === product.id
@@ -49,7 +71,7 @@ function Home() {
 
         if (text.trim() === "") {
 
-            setProducts([]);
+            loadProducts();
 
             return;
 
@@ -128,81 +150,52 @@ function Home() {
                     type="text"
                     placeholder="🔍 Search Products..."
                     value={query}
-                    onChange={(e)=>searchProducts(e.target.value)}
+                    onChange={(e) => searchProducts(e.target.value)}
                 />
 
                 <p
                     style={{
-                        color:"#666",
-                        marginTop:"15px",
-                        marginBottom:"30px",
-                        textAlign:"center"
+                        color: "#666",
+                        marginTop: "15px",
+                        marginBottom: "30px",
+                        textAlign: "center"
                     }}
                 >
-
-                    {
-
-                        query === ""
-
-                            ? "Start typing to search grocery products."
-
-                            : `${products.length} product(s) found`
-
-                    }
-
+                    {products.length} product(s) available
                 </p>
 
                 {
+                    products.length === 0 &&
 
-                    products.length === 0 && query !== "" && (
+                    <div
+                        style={{
+                            textAlign: "center",
+                            marginTop: "80px",
+                            color: "#777"
+                        }}
+                    >
 
-                        <div
-                            style={{
-                                textAlign:"center",
-                                marginTop:"80px",
-                                color:"#777"
-                            }}
-                        >
+                        <h1>📦</h1>
 
-                            <h1>🔍</h1>
+                        <h2>No products available</h2>
 
-                            <h2>No products found</h2>
-
-                            <p>
-
-                                Try another keyword.
-
-                            </p>
-
-                        </div>
-
-                    )
-
+                    </div>
                 }
 
                 {
-
                     products.length > 0 &&
 
                     <div
                         style={{
-
-                            display:"grid",
-
-                            gridTemplateColumns:
-
-                                "repeat(auto-fit,minmax(280px,1fr))",
-
-                            gap:"25px",
-
-                            alignItems:"stretch"
-
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+                            gap: "25px"
                         }}
                     >
 
                         {
 
-                            products.map((product)=>(
+                            products.map((product) => (
 
                                 <ProductCard
 
@@ -210,16 +203,12 @@ function Home() {
 
                                     product={product}
 
-                                    onCompare={()=>
-
+                                    onCompare={() =>
                                         navigate(`/compare/${product.id}`)
-
                                     }
 
-                                    onAddToCart={()=>
-
+                                    onAddToCart={() =>
                                         addToCart(product)
-
                                     }
 
                                 />
