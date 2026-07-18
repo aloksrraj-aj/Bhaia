@@ -8,6 +8,7 @@ import Compare from "./pages/Compare";
 import Cart from "./pages/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ChangePassword from "./pages/ChangePassword";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
@@ -50,7 +51,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+<Route
+  path="/payment"
+  element={
+    <ProtectedRoute>
+      <Payment />
+    </ProtectedRoute>
+  }
+/>
         <Route
           path="/login"
           element={<Login />}

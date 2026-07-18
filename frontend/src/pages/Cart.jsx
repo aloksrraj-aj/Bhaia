@@ -100,17 +100,20 @@ function Cart() {
             );
 
             toast.success(
-                `Order placed with ${response.data.store}`
-            );
+    `Order placed with ${response.data.store}`
+);
 
-            localStorage.removeItem("cart");
+localStorage.removeItem("cart");
 
-            setCart([]);
-            setComparison([]);
+setCart([]);
+setComparison([]);
 
-            setTimeout(() => {
-                navigate("/");
-            }, 1200);
+navigate("/payment", {
+    state: {
+        totalAmount: store.total,
+        store: response.data.store
+    }
+});
 
         }
 
