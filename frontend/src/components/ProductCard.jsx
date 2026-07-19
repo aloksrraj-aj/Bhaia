@@ -1,231 +1,123 @@
 import Button from "./Button";
 
-function ProductCard({
-
-    product,
-
-    onCompare,
-
-    onAddToCart
-
-}) {
-
+function ProductCard({ product, onCompare, onAddToCart }) {
     return (
-
         <div
-
             onClick={onCompare}
-
             style={{
-
-                background: "#FFFFFF",
-
-                borderRadius: "18px",
-
-                padding: "25px",
-
-                boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
-
-                transition: "all 0.25s ease",
-
+                background: "#fff",
+                borderRadius: "16px",
+                padding: "16px",
+                border: "1px solid #E5E7EB",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 cursor: "pointer",
-
-                border: "1px solid #E8ECEB",
-
+                transition: "0.25s",
                 display: "flex",
-
                 flexDirection: "column",
-
                 justifyContent: "space-between",
-
-                width: "100%",
-
-                minHeight: "290px",
-
-                boxSizing: "border-box"
-
+                minHeight: "360px"
             }}
-
-            onMouseEnter={(e)=>{
-
-                e.currentTarget.style.transform="translateY(-5px)";
-                e.currentTarget.style.boxShadow="0 16px 30px rgba(0,0,0,0.12)";
-
+            onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow =
+                    "0 10px 22px rgba(0,0,0,0.12)";
             }}
-
-            onMouseLeave={(e)=>{
-
-                e.currentTarget.style.transform="translateY(0)";
-                e.currentTarget.style.boxShadow="0 10px 25px rgba(0,0,0,0.08)";
-
+            onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                    "0 4px 12px rgba(0,0,0,0.08)";
             }}
-
         >
-
             <div>
-
                 <div
-    style={{
-        height: "170px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: "18px",
-        overflow: "hidden",
-        borderRadius: "12px",
-        background: "#F8F8F8"
-    }}
->
-    <img
-        src={
-            product.image ||
-            "https://via.placeholder.com/180x180?text=No+Image"
-        }
-        alt={product.name}
-        style={{
-            width: "150px",
-            height: "150px",
-            objectFit: "contain"
-        }}
-    />
-</div>
-
-                <h2
-
                     style={{
-
-                        color: "#355C4A",
-
-                        marginBottom: "15px",
-
-                        wordBreak: "break-word"
-
+                        height: "170px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "#F8F8F8",
+                        borderRadius: "12px",
+                        marginBottom: "15px"
                     }}
-
                 >
+                    <img
+                        src={`/images/${product.name}.jpeg`}
+                        alt={product.name}
+                        onError={(e) => {
+                            e.currentTarget.src =
+                                "https://placehold.co/150x150?text=No+Image";
+                        }}
+                        style={{
+                            width: "140px",
+                            height: "140px",
+                            objectFit: "contain"
+                        }}
+                    />
+                </div>
 
+                <h3
+                    style={{
+                        color: "#355C4A",
+                        margin: "0 0 8px",
+                        fontSize: "18px",
+                        minHeight: "48px"
+                    }}
+                >
                     {product.name}
-
-                </h2>
+                </h3>
 
                 <p
-    style={{
-        color: "#666",
-        marginBottom: "8px"
-    }}
->
-    {product.brand}
-</p>
+                    style={{
+                        color: "#777",
+                        margin: "0"
+                    }}
+                >
+                    {product.brand}
+                </p>
 
-<p
-    style={{
-        color: "#888"
-    }}
->
-    {product.unit}
-</p>
+                <p
+                    style={{
+                        color: "#999",
+                        marginTop: "6px",
+                        fontSize: "14px"
+                    }}
+                >
+                    {product.unit}
+                </p>
 
+                <div
+                    style={{
+                        marginTop: "12px",
+                        display: "inline-block",
+                        background: "#E9F8EE",
+                        color: "#2E7D32",
+                        padding: "6px 12px",
+                        borderRadius: "20px",
+                        fontSize: "12px",
+                        fontWeight: 600
+                    }}
+                >
+                    Compare prices
+                </div>
             </div>
 
             <div
-
                 style={{
-
-                    marginTop: "25px",
-
-                    display: "flex",
-
-                    flexDirection: "column",
-
-                    gap: "12px"
-
+                    marginTop: "18px"
                 }}
-
             >
-<p
-    style={{
-        color: "#27AE60",
-        fontWeight: "600",
-        textAlign: "center",
-        marginBottom: "10px"
-    }}
->
-    Compare prices across stores
-</p>
                 <Button
-
                     fullWidth
-
-                    onClick={(e)=>{
-
+                    onClick={(e) => {
                         e.stopPropagation();
-
                         onAddToCart();
-
                     }}
-
                 >
-
                     Add to Cart
-
                 </Button>
-
-                <button
-
-                    onClick={(e)=>{
-
-                        e.stopPropagation();
-
-                        onCompare();
-
-                    }}
-
-                    style={{
-
-                        width: "100%",
-
-                        padding: "13px",
-
-                        borderRadius: "10px",
-
-                        border: "2px solid #5F8D7A",
-
-                        background: "#FFFFFF",
-
-                        color: "#5F8D7A",
-
-                        fontWeight: "600",
-
-                        cursor: "pointer",
-
-                        transition: "all 0.25s ease"
-
-                    }}
-
-                    onMouseEnter={(e)=>{
-
-                        e.currentTarget.style.background="#F4F8F5";
-
-                    }}
-
-                    onMouseLeave={(e)=>{
-
-                        e.currentTarget.style.background="#FFFFFF";
-
-                    }}
-
-                >
-
-                    Compare Prices
-
-                </button>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default ProductCard;

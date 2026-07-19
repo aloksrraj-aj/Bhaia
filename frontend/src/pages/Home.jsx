@@ -9,10 +9,28 @@ import api from "../services/api";
 
 function Home() {
 
+    const navigate = useNavigate();
+
     const [query, setQuery] = useState("");
     const [products, setProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("All");
 
-    const navigate = useNavigate();
+    const categories = [
+        "All",
+        "Dairy",
+        "Bakery",
+        "Beverages",
+        "Snacks",
+        "Groceries"
+    ];
+
+    const categoryMap = {
+        Dairy: 1,
+        Bakery: 2,
+        Beverages: 3,
+        Snacks: 4,
+        Groceries: 5
+    };
 
     useEffect(() => {
         loadProducts();
@@ -40,7 +58,8 @@ function Home() {
 
     const addToCart = (product) => {
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart =
+            JSON.parse(localStorage.getItem("cart")) || [];
 
         const alreadyExists = cart.find(
             item => item.id === product.id
@@ -102,6 +121,15 @@ function Home() {
 
     };
 
+    const filteredProducts =
+        selectedCategory === "All"
+            ? products
+            : products.filter(
+                product =>
+                    product.category_id ===
+                    categoryMap[selectedCategory]
+            );
+
     return (
 
         <>
@@ -150,74 +178,124 @@ function Home() {
                     type="text"
                     placeholder="🔍 Search Products..."
                     value={query}
-                    onChange={(e) => searchProducts(e.target.value)}
+                    onChange={(e) =>
+                        searchProducts(e.target.value)
+                    }
                 />
+
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "10px",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        marginTop: "20px",
+                        marginBottom: "25px"
+                    }}
+                >
+
+                    {categories.map(category => (
+
+                        <button
+                            key={category}
+                            onClick={() =>
+                                setSelectedCategory(category)
+                            }
+                            style={{
+                                padding: "10px 18px",
+                                border: "none",
+                                borderRadius: "20px",
+                                cursor: "pointer",
+                                background:
+                                    selectedCategory === category
+                                        ? "#355C4A"
+                                        : "#E5E7EB",
+                                color:
+                                    selectedCategory === category
+                                        ? "#FFF"
+                                        : "#333",
+                                fontWeight: "600"
+                            }}
+                        >
+                            {category}
+                        </button>
+
+                    ))}
+
+                </div>
 
                 <p
                     style={{
                         color: "#666",
-                        marginTop: "15px",
-                        marginBottom: "30px",
-                        textAlign: "center"
+                        textAlign: "center",
+                        marginBottom: "30px"
                     }}
                 >
-                    {products.length} product(s) available
+                    {filteredProducts.length} product(s) available
                 </p>
 
                 {
-                    products.length === 0 &&
 
-                    <div
-                        style={{
-                            textAlign: "center",
-                            marginTop: "80px",
-                            color: "#777"
-                        }}
-                    >
+                    filteredProducts.length === 0 ?
 
-                        <h1>📦</h1>
+                        (
 
-                        <h2>No products available</h2>
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                    marginTop: "80px",
+                                    color: "#777"
+                                }}
+                            >
 
-                    </div>
-                }
+                                <h1>📦</h1>
 
-                {
-                    products.length > 0 &&
+                                <h2>No products found</h2>
 
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-                            gap: "25px"
-                        }}
-                    >
+                            </div>
 
-                        {
+                        )
 
-                            products.map((product) => (
+                        :
 
-                                <ProductCard
+                        (
 
-                                    key={product.id}
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns:
+                                        "repeat(auto-fit,minmax(280px,1fr))",
+                                    gap: "25px"
+                                }}
+                            >
 
-                                    product={product}
+                                {
 
-                                    onCompare={() =>
-                                        navigate(`/compare/${product.id}`)
-                                    }
+                                    filteredProducts.map(product => (
 
-                                    onAddToCart={() =>
-                                        addToCart(product)
-                                    }
+                                        <ProductCard
 
-                                />
+                                            key={product.id}
 
-                            ))
+                                            product={product}
 
-                        }
+                                            onCompare={() =>
+                                                navigate(`/product/${product.id}`)
+                                            }
 
-                    </div>
+                                            onAddToCart={() =>
+                                                addToCart(product)
+                                            }
+
+                                        />
+
+                                    ))
+
+                                }
+
+                            </div>
+
+                        )
 
                 }
 

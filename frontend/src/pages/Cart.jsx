@@ -135,6 +135,36 @@ navigate("/payment", {
         }
 
     };
+const getStoreLogo = (storeName) => {
+
+    const name = storeName.toLowerCase();
+
+    if (name.includes("blinkit"))
+        return "/store-logos/blinkit.png";
+
+    if (name.includes("zepto"))
+        return "/store-logos/zepto.png";
+
+    if (name.includes("jiomart"))
+        return "/store-logos/jiomart.jpeg";
+
+    if (name.includes("bigbasket"))
+        return "/store-logos/bigbasket.png";
+
+    if (name.includes("swiggy"))
+        return "/store-logos/swiggy.jpeg";
+
+    if (name.includes("dmart"))
+        return "/store-logos/dmart.jpeg";
+    
+    if (name.includes("amazon"))
+        return "/store-logos/amazon.png";
+
+    if (name.includes("flipkart"))
+        return "/store-logos/flipkart.png";
+
+    return "/store-logos/default.png";
+};
 
     return (
 
@@ -213,78 +243,95 @@ navigate("/payment", {
                         style={{
                             display: "grid",
                             gridTemplateColumns:
-                                "repeat(auto-fit,minmax(280px,1fr))",
+                                "repeat(auto-fit,minmax(240px,1fr))",
                             gap: "25px"
                         }}
                     >
 
-                        {cart.map(product => (
+                        {cart.map((product) => (
 
-                            <div
-                                key={product.id}
-                                style={{
-                                    background: "#FFFFFF",
-                                    padding: "25px",
-                                    borderRadius: "18px",
-                                    boxShadow:
-                                        "0 10px 25px rgba(0,0,0,0.08)",
-                                    border: "1px solid #E8ECEB",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "space-between"
-                                }}
-                            >
+    <div
+        key={product.id}
+        style={{
+            background: "#FFFFFF",
+            borderRadius: "16px",
+            padding: "18px",
+            border: "1px solid #E5E7EB",
+            boxShadow: "0 6px 15px rgba(0,0,0,0.08)"
+        }}
+    >
 
-                                <div>
+        <div
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "18px"
+            }}
+        >
 
-                                    <div
-                                        style={{
-                                            fontSize: "50px",
-                                            textAlign: "center",
-                                            marginBottom: "15px"
-                                        }}
-                                    >
-                                        🛒
-                                    </div>
+            <img
+                src={`/images/${product.name}.jpeg`}
+                alt={product.name}
+                onError={(e) => {
+                    e.currentTarget.src =
+                        "https://placehold.co/100x100?text=No+Image";
+                }}
+                style={{
+                    width: "90px",
+                    height: "90px",
+                    objectFit: "contain",
+                    borderRadius: "10px",
+                    background: "#F8F8F8",
+                    padding: "5px"
+                }}
+            />
 
-                                    <h2
-                                        style={{
-                                            color: "#355C4A"
-                                        }}
-                                    >
-                                        {product.name}
-                                    </h2>
+            <div style={{ flex: 1 }}>
 
-                                    <p>
-                                        <strong>Brand:</strong> {product.brand}
-                                    </p>
+                <h2
+                    style={{
+                        margin: 0,
+                        color: "#355C4A",
+                        fontSize: "22px"
+                    }}
+                >
+                    {product.name}
+                </h2>
 
-                                    <p>
-                                        <strong>Quantity:</strong> {product.unit}
-                                    </p>
+                <p
+                    style={{
+                        marginTop: "8px",
+                        color: "#666"
+                    }}
+                >
+                    <strong>Brand:</strong> {product.brand}
+                </p>
 
-                                </div>
+                <p
+                    style={{
+                        marginTop: "5px",
+                        color: "#666"
+                    }}
+                >
+                    <strong>Unit:</strong> {product.unit}
+                </p>
 
-                                <div
-                                    style={{
-                                        marginTop: "25px"
-                                    }}
-                                >
+                <Button
+                    style={{
+                        marginTop: "15px"
+                    }}
+                    onClick={() => removeFromCart(product.id)}
+                >
+                    Remove
+                </Button>
 
-                                    <Button
-                                        fullWidth
-                                        onClick={() =>
-                                            removeFromCart(product.id)
-                                        }
-                                    >
-                                        Remove
-                                    </Button>
+            </div>
 
-                                </div>
+        </div>
 
-                            </div>
+    </div>
 
-                        ))}
+))}
 
                     </div>
                 }
@@ -331,93 +378,99 @@ navigate("/payment", {
 
                 comparison.map((store, index) => (
 
-                    <div
-                        key={store.store_id}
+    <div
+        key={store.store_id}
+        style={{
+            background: index === 0 ? "#ECFDF5" : "#FFFFFF",
+            border: index === 0
+                ? "2px solid #22C55E"
+                : "1px solid #E5E7EB",
+            borderRadius: "18px",
+            padding: "20px",
+            marginBottom: "18px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            boxShadow: "0 5px 12px rgba(0,0,0,0.08)"
+        }}
+    >
+
+        <div
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "15px"
+            }}
+        >
+
+            <img
+                src={getStoreLogo(store.store)}
+                alt={store.store}
+                style={{
+                    width: "50px",
+                    height: "50px",
+                    objectFit: "contain"
+                }}
+            />
+
+            <div>
+
+                <h3
+                    style={{
+                        margin: 0,
+                        color: "#355C4A"
+                    }}
+                >
+                    {store.store}
+                </h3>
+
+                {index === 0 && (
+
+                    <span
                         style={{
-                            background:
-                                index === 0
-                                    ? "#D7E8D9"
-                                    : "#FFFFFF",
-
-                            padding: "25px",
-
-                            borderRadius: "18px",
-
-                            marginBottom: "20px",
-
-                            boxShadow:
-                                "0 8px 18px rgba(0,0,0,0.08)",
-
-                            display: "flex",
-
-                            justifyContent: "space-between",
-
-                            alignItems: "center",
-
-                            flexWrap: "wrap",
-
-                            gap: "20px"
+                            color: "#16A34A",
+                            fontWeight: "bold",
+                            fontSize: "14px"
                         }}
                     >
+                        🏆 Best Price
+                    </span>
 
-                        <div>
+                )}
 
-                            <h2>
-                                🏪 {store.store}
-                            </h2>
+            </div>
 
-                            {
-                                index === 0 && (
+        </div>
 
-                                    <p
-                                        style={{
-                                            color: "green",
-                                            fontWeight: "600"
-                                        }}
-                                    >
-                                        🏆 Recommended Store
-                                    </p>
+        <div
+            style={{
+                textAlign: "right"
+            }}
+        >
 
-                                )
-                            }
+            <h2
+                style={{
+                    margin: 0,
+                    color: "#16A34A"
+                }}
+            >
+                ₹{store.total}
+            </h2>
 
-                        </div>
+            <Button
+                onClick={() => placeOrder(store)}
+                disabled={loadingStore === store.store_id}
+            >
+                {loadingStore === store.store_id
+                    ? "Placing..."
+                    : "Place Order"}
+            </Button>
 
-                        <div
-                            style={{
-                                textAlign: "right"
-                            }}
-                        >
+        </div>
 
-                            <h2
-                                style={{
-                                    color: "#355C4A",
-                                    marginBottom: "15px"
-                                }}
-                            >
-                                ₹ {store.total}
-                            </h2>
+    </div>
 
-                            <Button
-                                onClick={() =>
-                                    placeOrder(store)
-                                }
-                                disabled={
-                                    loadingStore === store.store_id
-                                }
-                            >
-                                {
-                                    loadingStore === store.store_id
-                                        ? "Placing..."
-                                        : "Place Order"
-                                }
-                            </Button>
-
-                        </div>
-
-                    </div>
-
-                ))
+))
 
             }
 

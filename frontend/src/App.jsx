@@ -9,6 +9,7 @@ import Cart from "./pages/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ChangePassword from "./pages/ChangePassword";
 import Payment from "./pages/Payment";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -77,6 +78,15 @@ function App() {
                 </ProtectedRoute>
               }
         />
+        <Route
+    path="/product/:id"
+    element={
+        <ProtectedRoute>
+            <ProductDetails/>
+        </ProtectedRoute>
+    }
+/>
+
       </Routes>
 
     </BrowserRouter>
